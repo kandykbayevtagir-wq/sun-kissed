@@ -70,6 +70,29 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
+const initialScrollScript = `
+(() => {
+  const resetToTop = () => {
+    if (window.location.hash) {
+      window.history.replaceState(
+        null,
+        "",
+        window.location.pathname + window.location.search,
+      );
+    }
+    window.scrollTo(0, 0);
+  };
+
+  if ("scrollRestoration" in window.history) {
+    window.history.scrollRestoration = "manual";
+  }
+
+  window.addEventListener("pageshow", resetToTop);
+  window.addEventListener("load", resetToTop, { once: true });
+  resetToTop();
+})();
+`;
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -77,7 +100,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <script dangerouslySetInnerHTML={{ __html: initialScrollScript }} />
+        {children}
+      </body>
     </html>
   );
 }

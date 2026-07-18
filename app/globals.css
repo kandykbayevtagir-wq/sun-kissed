@@ -23,7 +23,7 @@
 
 html {
   min-width: 20rem;
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
   scroll-padding-top: 7rem;
   background: var(--void);
   color-scheme: dark;
@@ -118,9 +118,10 @@ h3 {
 }
 
 .film-grain {
-  position: fixed;
+  position: absolute;
   z-index: 200;
-  inset: 0;
+  inset: 0 0 auto;
+  height: 100svh;
   pointer-events: none;
   opacity: 0.035;
   mix-blend-mode: soft-light;
@@ -946,7 +947,6 @@ h3 {
   box-shadow:
     inset 0 1px rgba(255, 255, 255, 0.035),
     0 2rem 6rem rgba(0, 0, 0, 0.22);
-  backdrop-filter: blur(1rem);
 }
 
 .lore-archive::before {
@@ -1244,22 +1244,6 @@ h3 {
   transform: translateY(0) scale(1);
 }
 
-.motion-ready [data-reveal] h2,
-.motion-ready [data-reveal] h3 {
-  clip-path: inset(0 0 100% 0);
-  transform: translateY(0.85rem);
-  transition:
-    clip-path 850ms cubic-bezier(0.2, 0.72, 0.2, 1),
-    transform 850ms cubic-bezier(0.2, 0.72, 0.2, 1);
-  transition-delay: calc(var(--reveal-delay, 0ms) + 80ms);
-}
-
-.motion-ready [data-reveal].is-visible h2,
-.motion-ready [data-reveal].is-visible h3 {
-  clip-path: inset(0 0 0 0);
-  transform: translateY(0);
-}
-
 @media (prefers-reduced-motion: no-preference) {
   .motion-ready .hero-copy > * {
     animation: hero-rise 780ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
@@ -1470,9 +1454,12 @@ h3 {
 }
 
 @media (max-width: 47.5rem) {
+  :root {
+    --page-gutter: clamp(0.875rem, 4vw, 1.075rem);
+  }
+
   html {
-    scroll-behavior: auto;
-    scroll-padding-top: 6.5rem;
+    scroll-padding-top: 5.75rem;
   }
 
   .site-header {
@@ -1482,7 +1469,7 @@ h3 {
   .floating-nav {
     width: max-content;
     min-height: 0;
-    margin-right: 0.625rem;
+    margin-right: 0.5rem;
     padding: 0.25rem;
     border-radius: 999px;
     background: #0a0806;
@@ -1504,7 +1491,7 @@ h3 {
 
   .nav-panel {
     right: 0;
-    width: calc(100vw - 1.25rem);
+    width: calc(100vw - 1rem);
     max-height: calc(100vh - 5.5rem);
     max-height: calc(100svh - 5.5rem);
   }
@@ -1515,12 +1502,12 @@ h3 {
 
   .hero,
   .hero-layout {
-    min-height: max(42rem, 100svh);
+    min-height: clamp(42rem, 92svh, 48rem);
   }
 
   .hero-layout {
     align-items: start;
-    padding-block: 8rem 9rem;
+    padding-block: 6.5rem 6rem;
   }
 
   .hero-copy {
@@ -1528,47 +1515,95 @@ h3 {
   }
 
   .hero h1 {
-    font-size: clamp(4.2rem, 20.5vw, 6.2rem);
-    line-height: 0.82;
+    margin-bottom: 1rem;
+    font-size: clamp(3.9rem, 20vw, 5.4rem);
+    line-height: 0.84;
+  }
+
+  .eyebrow {
+    margin-bottom: 1.25rem;
+    gap: 0.65rem;
+    font-size: 0.58rem;
+    letter-spacing: 0.16em;
+  }
+
+  .eyebrow > span {
+    width: 1.75rem;
+  }
+
+  .hero-statement {
+    margin-bottom: 1rem;
+    font-size: clamp(1.35rem, 6vw, 1.7rem);
   }
 
   .hero-support {
     max-width: 30rem;
+    font-size: 0.94rem;
+    line-height: 1.62;
   }
 
   .hero-actions {
+    margin-top: 1.45rem;
     align-items: flex-start;
     flex-direction: column;
     gap: 0.7rem;
   }
 
   .trinity {
-    max-width: 23rem;
-    flex-wrap: wrap;
+    width: 100%;
+    max-width: 25rem;
+    margin-top: 1.55rem;
+    display: grid;
+    grid-template-columns: auto 3px auto 3px auto;
+    gap: 0.45rem;
     color: rgba(255, 248, 232, 0.74);
+    font-size: 0.52rem;
+    letter-spacing: 0.1em;
     text-shadow: 0 1px 0.6rem rgba(0, 0, 0, 0.92);
   }
 
   .hero-sun {
-    top: 21rem;
-    right: -22rem;
-    width: 48rem;
-    opacity: 0.9;
+    top: 22.5rem;
+    right: auto;
+    left: 50%;
+    width: 42rem;
+    opacity: 0.78;
+    transform: translate3d(-50%, 0, 0);
   }
 
-  .hero-orbit-one {
-    top: 66%;
-    right: -55%;
-    width: 150%;
-    height: 22%;
-  }
-
+  .hero-orbit-one,
   .hero-orbit-two {
     display: none;
   }
 
+  .hero-horizon {
+    height: 6rem;
+  }
+
   .section {
-    padding-block: 7rem;
+    padding-block: 5rem;
+  }
+
+  .section-heading h2,
+  .lore-heading h2,
+  .rules-heading h2,
+  .final-copy h2 {
+    font-size: clamp(2.85rem, 13vw, 4.25rem);
+    line-height: 0.92;
+  }
+
+  .section-index {
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+  }
+
+  .split-heading {
+    gap: 1.5rem;
+  }
+
+  .split-heading > p {
+    font-size: 0.95rem;
+    line-height: 1.65;
   }
 
   .ascensions-section {
@@ -1576,8 +1611,8 @@ h3 {
   }
 
   .pilgrimage {
-    margin-top: 5.5rem;
-    padding: 0 0 0 1.65rem;
+    margin-top: 4rem;
+    padding: 0 0 0 1.1rem;
   }
 
   .pilgrimage::before {
@@ -1601,8 +1636,8 @@ h3 {
   .ascension-stage-2,
   .ascension-stage-3 {
     width: 100%;
-    margin: 0 0 4.5rem;
-    padding: 2.1rem 0 2.4rem;
+    margin: 0 0 3.25rem;
+    padding: 1.75rem 0 2rem;
   }
 
   .ascension-stage:last-child {
@@ -1610,20 +1645,36 @@ h3 {
   }
 
   .orbit-node {
-    left: -2.55rem;
+    left: -1.75rem;
   }
 
   .stage-heading {
-    grid-template-columns: 3rem 1fr;
+    grid-template-columns: 2.4rem 1fr;
+    gap: 0.75rem;
   }
 
   .stage-numeral {
-    font-size: 2.5rem;
+    font-size: 2rem;
+  }
+
+  .stage-heading h3 {
+    font-size: clamp(2rem, 10.5vw, 3rem);
   }
 
   .ascension-stage blockquote,
   .stage-details {
-    margin-left: 4.3rem;
+    margin-left: 0;
+  }
+
+  .ascension-stage blockquote {
+    margin-top: 1.5rem;
+    font-size: 1.1rem;
+    line-height: 1.5;
+  }
+
+  .stage-details {
+    margin-top: 1.5rem;
+    gap: 1rem;
   }
 
   .stage-details > div {
@@ -1633,12 +1684,16 @@ h3 {
 
   .lore-layout,
   .rules-layout {
-    gap: 4rem;
+    gap: 3rem;
   }
 
   .lore-archive {
-    backdrop-filter: none;
     background: rgba(15, 10, 6, 0.88);
+  }
+
+  .archive-header,
+  .archive-footer {
+    padding: 0.9rem 1rem;
   }
 
   .archive-header {
@@ -1646,30 +1701,83 @@ h3 {
     flex-direction: column;
   }
 
+  .lore-archive blockquote {
+    padding: 1.25rem;
+  }
+
+  .lore-fragment {
+    padding-block: 1.75rem;
+  }
+
+  .fragment-meta {
+    margin-bottom: 0.75rem;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  .lore-fragment p {
+    font-size: 1.12rem;
+    line-height: 1.55;
+  }
+
   .rule header {
-    grid-template-columns: 1fr;
-    gap: 0.65rem;
+    grid-template-columns: 2.25rem 1fr;
+    gap: 0.75rem;
+  }
+
+  .rule {
+    margin-bottom: 2.35rem;
+    padding-bottom: 2.35rem;
+  }
+
+  .rule h3,
+  .moderation-clause h3 {
+    font-size: clamp(1.65rem, 8.5vw, 2.3rem);
   }
 
   .rule-copy {
+    margin-top: 1.15rem;
     margin-left: 0;
   }
 
+  .rule-copy p,
+  .moderation-clause > p:not(.section-index) {
+    font-size: 0.97rem;
+    line-height: 1.65;
+  }
+
+  .moderation-clause {
+    margin-top: 4rem;
+    padding-top: 2.5rem;
+  }
+
   .final-invitation {
-    min-height: 46rem;
+    min-height: clamp(40rem, 85svh, 44rem);
   }
 
   .final-copy {
-    margin-top: 5rem;
+    margin-top: 4rem;
   }
 
   .final-copy h2 {
-    font-size: clamp(4.1rem, 19vw, 7.2rem);
+    margin-bottom: 1.5rem;
+    font-size: clamp(3.2rem, 15vw, 5.2rem);
+  }
+
+  .final-copy > p:not(.section-index) {
+    margin-bottom: 1.75rem;
+    font-size: 1.15rem;
   }
 
   .final-sun {
-    bottom: -25rem;
-    width: 58rem;
+    bottom: -21rem;
+    width: 48rem;
+  }
+
+  .final-inscription {
+    bottom: 1.35rem;
+    font-size: 0.82rem;
   }
 
   .site-footer .page-width {
@@ -1684,37 +1792,13 @@ h3 {
 
 @media (max-width: 30rem) {
   .eyebrow {
-    letter-spacing: 0.18em;
-  }
-
-  .hero-layout {
-    padding-top: 8rem;
-  }
-
-  .hero-sun {
-    right: -24rem;
+    letter-spacing: 0.13em;
   }
 
   .button {
     max-width: 100%;
   }
 
-  .ascension-stage blockquote,
-  .stage-details {
-    margin-left: 0;
-  }
-
-  .archive-header,
-  .archive-footer,
-  .lore-archive blockquote {
-    padding-inline: 1.15rem;
-  }
-
-  .fragment-meta {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 0.35rem;
-  }
 }
 
 @media (hover: none), (pointer: coarse) {
@@ -1728,13 +1812,6 @@ h3 {
 
   .lore-archive {
     backdrop-filter: none;
-  }
-
-  .motion-ready [data-reveal] h2,
-  .motion-ready [data-reveal] h3,
-  .motion-ready [data-reveal].is-visible h2,
-  .motion-ready [data-reveal].is-visible h3 {
-    clip-path: none;
   }
 
   .solar-rig {
@@ -1765,12 +1842,6 @@ h3 {
 
   .motion-ready [data-reveal] {
     opacity: 1;
-    transform: none;
-  }
-
-  .motion-ready [data-reveal] h2,
-  .motion-ready [data-reveal] h3 {
-    clip-path: none;
     transform: none;
   }
 

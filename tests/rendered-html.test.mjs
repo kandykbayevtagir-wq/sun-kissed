@@ -42,6 +42,8 @@ test("server-renders the complete Sun Kissed page", async () => {
   assert.match(html, /<details class="navigation-menu"/i);
   assert.match(html, /aria-controls="navigation-menu"/i);
   assert.match(html, /data-parallax-sun="true"/i);
+  assert.match(html, /scrollRestoration/);
+  assert.match(html, /pageshow/);
   assert.match(html, />Enter the Sanctuary</i);
   assert.doesNotMatch(html, /class="section-index">The Sanctuary remains open/i);
   assert.doesNotMatch(html, /Fictional community worldbuilding/i);
@@ -74,8 +76,13 @@ test("removes the disposable starter and keeps production metadata", async () =>
   assert.match(page, /id="rules"/);
   assert.match(layout, /Sun Kissed — The Union of the Sun Kissed/);
   assert.match(layout, /summary_large_image/);
+  assert.match(layout, /window\.history\.scrollRestoration\s*=\s*"manual"/);
+  assert.match(layout, /window\.history\.replaceState/);
+  assert.match(layout, /window\.scrollTo\(0, 0\)/);
   assert.match(css, /prefers-reduced-motion:\s*reduce/);
   assert.match(css, /:focus-visible/);
+  assert.doesNotMatch(css, /scroll-behavior:\s*smooth/);
+  assert.match(css, /--page-gutter:\s*clamp\(0\.875rem, 4vw, 1\.075rem\)/);
   assert.match(navigation, /<details className="navigation-menu"/);
   assert.doesNotMatch(navigation, /inviteUrl|nav-invite|brand-link/);
   assert.equal(page.match(/Enter the Sanctuary/g)?.length, 1);
