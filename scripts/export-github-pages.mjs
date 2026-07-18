@@ -22,11 +22,14 @@ if (!response.ok) {
 }
 
 const renderedHtml = await response.text();
+const assetBasePath = `${new URL(publicSiteUrl).pathname}assets/`;
 const staticHtml = renderedHtml
   .replaceAll("http://localhost:3000", publicSiteUrl.slice(0, -1))
-  .replaceAll('href="/assets/', 'href="assets/')
-  .replaceAll('src="/assets/', 'src="assets/')
-  .replaceAll('data-rsc-css-href="/assets/', 'data-rsc-css-href="assets/');
+  .replaceAll("/assets/", assetBasePath);
+
+if (staticHtml.includes('"/assets/')) {
+  throw new Error("GitHub Pages export still contains root-relative assets.");
+}
 
 await rm(outputDirectory, { recursive: true, force: true });
 await mkdir(outputDirectory, { recursive: true });
