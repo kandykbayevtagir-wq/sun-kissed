@@ -39,6 +39,9 @@ test("server-renders the complete Sun Kissed page", async () => {
   assert.match(html, /Reach Far Into the Skies/);
   assert.match(html, /https:\/\/discord\.gg\/ZqMgTGxKX/);
   assert.match(html, /fictional community lore/i);
+  assert.match(html, /aria-controls="navigation-menu"/i);
+  assert.doesNotMatch(html, /class="section-index">The Sanctuary remains open/i);
+  assert.doesNotMatch(html, /Fictional community worldbuilding/i);
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton|lorem ipsum/i);
 });
 

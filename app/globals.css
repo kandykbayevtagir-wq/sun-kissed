@@ -237,6 +237,14 @@ h3 {
   gap: clamp(0.4rem, 1.1vw, 1.2rem);
 }
 
+.nav-panel {
+  display: contents;
+}
+
+.menu-toggle {
+  display: none;
+}
+
 .nav-links a {
   padding: 0.65rem 0.7rem;
   color: rgba(248, 240, 216, 0.66);
@@ -1159,7 +1167,7 @@ h3 {
 
 .final-invitation {
   position: relative;
-  min-height: clamp(48rem, 86vw, 72rem);
+  min-height: clamp(39rem, 66vw, 55rem);
   overflow: hidden;
   display: grid;
   place-items: start center;
@@ -1181,7 +1189,7 @@ h3 {
 .final-copy {
   position: relative;
   z-index: 14;
-  margin-top: clamp(7rem, 12vw, 11rem);
+  margin-top: clamp(5.5rem, 8vw, 7.5rem);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1189,7 +1197,7 @@ h3 {
 
 .final-copy h2 {
   max-width: 70rem;
-  margin: 1rem auto 2rem;
+  margin: 0 auto 2rem;
   font-size: clamp(4rem, 8.8vw, 9.5rem);
   line-height: 0.82;
 }
@@ -1207,7 +1215,7 @@ h3 {
 .final-sun {
   z-index: 2;
   right: auto;
-  bottom: clamp(-39rem, -40vw, -24rem);
+  bottom: clamp(-34rem, -36vw, -21rem);
   left: 50%;
   width: clamp(58rem, 93vw, 90rem);
   transform: translateX(-50%);
@@ -1252,18 +1260,8 @@ h3 {
 .site-footer .page-width {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   gap: 1.5rem;
-}
-
-.site-footer p {
-  margin-bottom: 0;
-  color: rgba(232, 224, 205, 0.42);
-  font-size: 0.62rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-align: right;
-  text-transform: uppercase;
 }
 
 .motion-ready [data-reveal] {
@@ -1478,20 +1476,73 @@ h3 {
     backdrop-filter: blur(0.8rem);
   }
 
-  .nav-links {
+  .menu-toggle {
+    width: 2.75rem;
+    height: 2.75rem;
+    padding: 0;
+    display: inline-grid;
+    place-content: center;
+    gap: 0.28rem;
+    border: 1px solid rgba(255, 235, 191, 0.18);
+    border-radius: 50%;
+    background: rgba(235, 202, 119, 0.04);
+    color: var(--ivory);
+    cursor: pointer;
+  }
+
+  .menu-toggle:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 4px;
+  }
+
+  .menu-toggle span {
+    width: 1rem;
+    height: 1px;
+    display: block;
+    background: currentColor;
+    transition: transform 180ms ease, opacity 180ms ease;
+  }
+
+  .menu-toggle[aria-expanded="true"] span:first-child {
+    transform: translateY(0.29rem) rotate(45deg);
+  }
+
+  .menu-toggle[aria-expanded="true"] span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .menu-toggle[aria-expanded="true"] span:last-child {
+    transform: translateY(-0.29rem) rotate(-45deg);
+  }
+
+  .nav-panel {
     grid-column: 1 / -1;
+    display: none;
+    gap: 0.7rem;
+  }
+
+  .nav-panel.is-open {
+    display: grid;
+  }
+
+  .nav-links {
     width: 100%;
-    padding-top: 0.4rem;
-    justify-content: space-around;
+    padding-top: 0.55rem;
+    align-items: stretch;
+    flex-direction: column;
     border-top: 1px solid rgba(246, 218, 151, 0.1);
   }
 
   .nav-links a {
-    padding: 0.4rem 0.55rem 0.3rem;
+    min-height: 2.75rem;
+    padding: 0.65rem 0.55rem;
+    display: flex;
+    align-items: center;
     font-size: 0.68rem;
   }
 
   .nav-invite {
+    width: 100%;
     min-height: 2.5rem;
     padding: 0.6rem 0.95rem;
     font-size: 0.64rem;
@@ -1655,11 +1706,11 @@ h3 {
   }
 
   .final-invitation {
-    min-height: 58rem;
+    min-height: 46rem;
   }
 
   .final-copy {
-    margin-top: 7rem;
+    margin-top: 5rem;
   }
 
   .final-copy h2 {
@@ -1667,17 +1718,12 @@ h3 {
   }
 
   .final-sun {
-    bottom: -26rem;
-    width: 62rem;
+    bottom: -25rem;
+    width: 58rem;
   }
 
   .site-footer .page-width {
-    align-items: flex-start;
-    flex-direction: column;
-  }
-
-  .site-footer p {
-    text-align: left;
+    align-items: center;
   }
 
   .not-found-sun {

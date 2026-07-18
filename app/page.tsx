@@ -1,4 +1,5 @@
 import { MotionController } from "./MotionController";
+import { SiteNavigation } from "./SiteNavigation";
 import {
   ASCENSIONS,
   LORE_FRAGMENTS,
@@ -51,28 +52,7 @@ export default function Home() {
       <div className="cosmic-field" aria-hidden="true" />
       <div className="film-grain" aria-hidden="true" />
 
-      <header className="site-header">
-        <nav className="floating-nav" aria-label="Primary navigation">
-          <a className="brand-link" href="#top" aria-label="Sun Kissed home">
-            <SunMark />
-            <span>The Union</span>
-          </a>
-          <div className="nav-links">
-            <a href="#ascensions">Ascensions</a>
-            <a href="#lore">Lore</a>
-            <a href="#rules">Rules</a>
-          </div>
-          <a
-            className="nav-invite"
-            href={inviteUrl}
-            target="_blank"
-            rel="noreferrer"
-          >
-            <span>Enter the Sanctuary</span>
-            <b aria-hidden="true">↗</b>
-          </a>
-        </nav>
-      </header>
+      <SiteNavigation inviteUrl={inviteUrl} />
 
       <main id="main-content">
         <section
@@ -284,7 +264,6 @@ export default function Home() {
           <SolarVisual className="final-sun" />
           <div className="final-orbit" aria-hidden="true" />
           <div className="page-width final-copy" data-reveal>
-            <p className="section-index">The Sanctuary remains open</p>
             <h2 id="final-title">Reach Far Into the Skies</h2>
             <p>
               “The Sanctuary remains open to every soul willing to enter with
@@ -312,7 +291,6 @@ export default function Home() {
             <SunMark />
             Sun Kissed
           </a>
-          <p>Fictional community worldbuilding · Built for the light</p>
         </div>
       </footer>
     </div>

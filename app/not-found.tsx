@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Lost Beyond the Light",
@@ -17,10 +18,10 @@ export default function NotFound() {
           This path has drifted out of orbit. Return to the Sanctuary and begin
           the pilgrimage again.
         </p>
-        <a className="button button-primary" href="/">
+        <Link className="button button-primary" href="/">
           Return to Sun Kissed
           <span aria-hidden="true">←</span>
-        </a>
+        </Link>
       </div>
     </main>
   );
