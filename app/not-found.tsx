@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Lost Beyond the Light",
   description: "This path has drifted beyond the Sun Kissed archive.",
+  robots: { index: false, follow: false },
 };
 
 export default function NotFound() {
@@ -18,10 +18,12 @@ export default function NotFound() {
           This path has drifted out of orbit. Return to the Sanctuary and begin
           the pilgrimage again.
         </p>
-        <Link className="button button-primary" href="/">
+        {/* The GitHub Pages exporter rewrites this plain link to the project base. */}
+        {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
+        <a className="button button-primary" href="/">
           Return to Sun Kissed
           <span aria-hidden="true">←</span>
-        </Link>
+        </a>
       </div>
     </main>
   );

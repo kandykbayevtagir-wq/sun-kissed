@@ -39,17 +39,30 @@ test("server-renders the complete Sun Kissed page", async () => {
   assert.match(html, /Reach Far Into the Skies/);
   assert.match(html, /https:\/\/discord\.gg\/ZqMgTGxKX/);
   assert.match(html, /fictional community lore/i);
+  assert.match(html, /<details class="navigation-menu"/i);
   assert.match(html, /aria-controls="navigation-menu"/i);
+  assert.match(html, /data-parallax-sun="true"/i);
   assert.doesNotMatch(html, /class="section-index">The Sanctuary remains open/i);
   assert.doesNotMatch(html, /Fictional community worldbuilding/i);
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton|lorem ipsum/i);
 });
 
+test("server-renders a dedicated, non-indexable not-found page", async () => {
+  const response = await render("/missing");
+  assert.equal(response.status, 404);
+
+  const html = await response.text();
+  assert.match(html, /Lost Beyond the Light/);
+  assert.match(html, /<meta[^>]+content="noindex"[^>]+name="robots"/i);
+  assert.doesNotMatch(html, />SUN KISSED<\/h1>/i);
+});
+
 test("removes the disposable starter and keeps production metadata", async () => {
-  const [page, layout, css, packageJson] = await Promise.all([
+  const [page, layout, css, navigation, packageJson] = await Promise.all([
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
+    readFile(new URL("../app/SiteNavigation.tsx", import.meta.url), "utf8"),
     readFile(new URL("../package.json", import.meta.url), "utf8"),
   ]);
 
@@ -61,10 +74,13 @@ test("removes the disposable starter and keeps production metadata", async () =>
   assert.match(layout, /summary_large_image/);
   assert.match(css, /prefers-reduced-motion:\s*reduce/);
   assert.match(css, /:focus-visible/);
+  assert.match(navigation, /<details className="navigation-menu"/);
+  assert.doesNotMatch(page + css, /hero-light/);
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
   assert.doesNotMatch(page + layout, /codex-preview|SkeletonPreview/);
 
   await assert.rejects(access(new URL("app/_sites-preview", projectRoot)));
   await access(new URL("public/favicon.svg", projectRoot));
+  await access(new URL("public/og.jpg", projectRoot));
   await access(new URL("app/not-found.tsx", projectRoot));
 });

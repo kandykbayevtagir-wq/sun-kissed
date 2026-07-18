@@ -8,9 +8,19 @@ import {
   SITE_CONFIG,
 } from "./site-config";
 
-function SolarVisual({ className = "" }: { className?: string }) {
+function SolarVisual({
+  className = "",
+  parallax = false,
+}: {
+  className?: string;
+  parallax?: boolean;
+}) {
   return (
-    <div className={`solar-rig ${className}`} aria-hidden="true">
+    <div
+      className={`solar-rig ${className}`}
+      aria-hidden="true"
+      data-parallax-sun={parallax ? "true" : undefined}
+    >
       <div className="solar-corona" />
       <div className="solar-rays" />
       <div className="solar-flare solar-flare-one" />
@@ -54,17 +64,17 @@ export default function Home() {
 
       <SiteNavigation inviteUrl={inviteUrl} />
 
-      <main id="main-content">
+      <main id="main-content" tabIndex={-1}>
         <section
           className="hero"
           id="top"
+          tabIndex={-1}
           aria-labelledby="hero-title"
           data-parallax-root
         >
-          <div className="hero-light" aria-hidden="true" />
           <div className="hero-orbit hero-orbit-one" aria-hidden="true" />
           <div className="hero-orbit hero-orbit-two" aria-hidden="true" />
-          <SolarVisual className="hero-sun" />
+          <SolarVisual className="hero-sun" parallax />
 
           <div className="page-width hero-layout">
             <div className="hero-copy">
@@ -116,6 +126,7 @@ export default function Home() {
         <section
           className="section ascensions-section"
           id="ascensions"
+          tabIndex={-1}
           aria-labelledby="ascensions-title"
         >
           <div className="page-width">
@@ -142,7 +153,9 @@ export default function Home() {
                     {ascension.symbol}
                   </span>
                   <div className="stage-heading">
-                    <span className="stage-numeral">{ascension.numeral}</span>
+                    <span className="stage-numeral" aria-hidden="true">
+                      {ascension.numeral}
+                    </span>
                     <div>
                       <p>{ascension.degree}</p>
                       <h3>{ascension.title}</h3>
@@ -166,6 +179,7 @@ export default function Home() {
         <section
           className="section lore-section"
           id="lore"
+          tabIndex={-1}
           aria-labelledby="lore-title"
         >
           <div className="lore-orbit" aria-hidden="true" />
@@ -213,6 +227,7 @@ export default function Home() {
         <section
           className="section rules-section"
           id="rules"
+          tabIndex={-1}
           aria-labelledby="rules-title"
         >
           <div className="page-width rules-layout">
@@ -259,6 +274,7 @@ export default function Home() {
         <section
           className="final-invitation"
           id="final-invitation"
+          tabIndex={-1}
           aria-labelledby="final-title"
         >
           <SolarVisual className="final-sun" />
