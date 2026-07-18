@@ -39,8 +39,8 @@ test("server-renders the complete Sun Kissed page", async () => {
   assert.match(html, /Reach Far Into the Skies/);
   assert.match(html, /https:\/\/discord\.gg\/ZqMgTGxKX/);
   assert.match(html, /fictional community lore/i);
-  assert.match(html, /<details class="navigation-menu"/i);
-  assert.match(html, /aria-controls="navigation-menu"/i);
+  assert.doesNotMatch(html, /navigation-menu|menu-toggle|nav-panel/i);
+  assert.match(html, /data-scroll-top/);
   assert.match(html, /data-parallax-sun="true"/i);
   assert.match(html, /data-site-author="Tagir Kandykbayev \(Тагир Кандыкабаев\)"/i);
   assert.match(html, /data-copyright-notice=/i);
@@ -65,11 +65,10 @@ test("server-renders a dedicated, non-indexable not-found page", async () => {
 });
 
 test("removes the disposable starter and keeps production metadata", async () => {
-  const [page, layout, css, navigation, packageJson, viteConfig] = await Promise.all([
+  const [page, layout, css, packageJson, viteConfig] = await Promise.all([
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
-    readFile(new URL("../app/SiteNavigation.tsx", import.meta.url), "utf8"),
     readFile(new URL("../package.json", import.meta.url), "utf8"),
     readFile(new URL("../vite.config.ts", import.meta.url), "utf8"),
   ]);
@@ -78,7 +77,9 @@ test("removes the disposable starter and keeps production metadata", async () =>
   assert.match(page, /id="ascensions"/);
   assert.match(page, /id="lore"/);
   assert.match(page, /id="rules"/);
+  assert.match(page, /ScrollToTop/);
   assert.doesNotMatch(page, /Continue to the Sanctuary/);
+  assert.doesNotMatch(page, /SiteNavigation|navigation-menu|menu-toggle/);
   assert.match(page, /data-site-author/);
   assert.match(layout, /Sun Kissed — The Union of the Sun Kissed/);
   assert.match(layout, /SITE_AUTHORSHIP\.rights/);
@@ -90,8 +91,7 @@ test("removes the disposable starter and keeps production metadata", async () =>
   assert.match(css, /:focus-visible/);
   assert.doesNotMatch(css, /scroll-behavior:\s*smooth/);
   assert.match(css, /--page-gutter:\s*clamp\(0\.875rem, 4vw, 1\.075rem\)/);
-  assert.match(navigation, /<details className="navigation-menu"/);
-  assert.doesNotMatch(navigation, /inviteUrl|nav-invite|brand-link/);
+  assert.match(css, /\.scroll-top\.is-visible/);
   assert.equal(page.match(/Enter the Sanctuary/g)?.length, 1);
   assert.doesNotMatch(page + css, /hero-light/);
   assert.doesNotMatch(page + css, /cosmic-field|solar-corona|solar-haze|solar-flare|solar-particles/);

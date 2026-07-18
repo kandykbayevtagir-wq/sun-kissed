@@ -1,5 +1,5 @@
 import { MotionController } from "./MotionController";
-import { SiteNavigation } from "./SiteNavigation";
+import { ScrollToTop } from "./ScrollToTop";
 import {
   ASCENSIONS,
   LORE_FRAGMENTS,
@@ -53,8 +53,6 @@ export default function Home() {
         Skip to main content
       </a>
       <div className="film-grain" aria-hidden="true" />
-
-      <SiteNavigation />
 
       <main id="main-content" tabIndex={-1}>
         <section
@@ -278,6 +276,8 @@ export default function Home() {
           </p>
         </section>
       </main>
+
+      <ScrollToTop />
 
       <footer className="site-footer">
         <div className="page-width">

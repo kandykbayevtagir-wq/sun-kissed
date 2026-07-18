@@ -11,12 +11,6 @@ export function MotionController() {
     );
     const hero = document.querySelector<HTMLElement>("[data-parallax-root]");
     const sun = document.querySelector<HTMLElement>("[data-parallax-sun]");
-    const navigationLinks = Array.from(
-      document.querySelectorAll<HTMLAnchorElement>('.nav-links a[href^="#"]'),
-    );
-    const trackedSections = navigationLinks
-      .map((link) => document.querySelector<HTMLElement>(link.hash))
-      .filter((section): section is HTMLElement => Boolean(section));
     const solarRigs = Array.from(
       document.querySelectorAll<HTMLElement>(".solar-rig"),
     );
@@ -25,8 +19,6 @@ export function MotionController() {
       document.querySelectorAll<HTMLElement>("[data-reveal]"),
     );
     let pointerFrame = 0;
-    let activeSectionId = "";
-    const visibleSectionIds = new Set<string>();
 
     root.classList.add("motion-ready");
     revealItems.forEach((item, index) => {
@@ -73,35 +65,6 @@ export function MotionController() {
       : null;
     if (timeline) timelineObserver?.observe(timeline);
 
-    const setActiveSection = (id: string) => {
-      if (id === activeSectionId) return;
-      activeSectionId = id;
-      navigationLinks.forEach((link) => {
-        if (link.hash === `#${id}`) {
-          link.setAttribute("aria-current", "location");
-        } else {
-          link.removeAttribute("aria-current");
-        }
-      });
-    };
-
-    const sectionObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          const id = (entry.target as HTMLElement).id;
-          if (entry.isIntersecting) visibleSectionIds.add(id);
-          else visibleSectionIds.delete(id);
-        });
-
-        const activeSection = trackedSections.find((section) =>
-          visibleSectionIds.has(section.id),
-        );
-        setActiveSection(activeSection?.id ?? "");
-      },
-      { rootMargin: "-18% 0px -72%", threshold: 0 },
-    );
-    trackedSections.forEach((section) => sectionObserver.observe(section));
-
     const resetSun = () => {
       if (!sun) return;
       sun.style.setProperty("--sun-x", "0px");
@@ -142,7 +105,6 @@ export function MotionController() {
       revealObserver.disconnect();
       solarVisibilityObserver.disconnect();
       timelineObserver?.disconnect();
-      sectionObserver.disconnect();
       hero?.removeEventListener("pointermove", moveSun);
       hero?.removeEventListener("pointerleave", resetSun);
       reducedMotion.removeEventListener("change", handlePreferenceChange);
