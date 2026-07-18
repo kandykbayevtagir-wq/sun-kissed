@@ -1,6 +1,6 @@
 import { cp, mkdir, rm, writeFile } from "node:fs/promises";
 
-const outputDirectory = new URL("../github-pages/", import.meta.url);
+const outputDirectory = new URL("../docs/", import.meta.url);
 const clientDirectory = new URL("../dist/client/", import.meta.url);
 const workerUrl = new URL("../dist/server/index.js", import.meta.url);
 
@@ -34,4 +34,4 @@ await cp(clientDirectory, outputDirectory, { recursive: true });
 await writeFile(new URL("index.html", outputDirectory), staticHtml);
 await writeFile(new URL("404.html", outputDirectory), staticHtml);
 
-console.log("GitHub Pages bundle written to github-pages/.");
+console.log("GitHub Pages bundle written to docs/.");
