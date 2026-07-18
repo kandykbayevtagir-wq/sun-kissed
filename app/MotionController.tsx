@@ -11,8 +11,6 @@ export function MotionController() {
     );
     const hero = document.querySelector<HTMLElement>("[data-parallax-root]");
     const sun = document.querySelector<HTMLElement>("[data-parallax-sun]");
-    const header = document.querySelector<HTMLElement>(".site-header");
-    const progressBar = document.querySelector<HTMLElement>(".nav-progress i");
     const navigationLinks = Array.from(
       document.querySelectorAll<HTMLAnchorElement>('.nav-links a[href^="#"]'),
     );
@@ -27,7 +25,8 @@ export function MotionController() {
       document.querySelectorAll<HTMLElement>("[data-reveal]"),
     );
     let pointerFrame = 0;
-    let scrollFrame = 0;
+    let activeSectionId = "";
+    const visibleSectionIds = new Set<string>();
 
     root.classList.add("motion-ready");
     revealItems.forEach((item, index) => {
@@ -74,6 +73,35 @@ export function MotionController() {
       : null;
     if (timeline) timelineObserver?.observe(timeline);
 
+    const setActiveSection = (id: string) => {
+      if (id === activeSectionId) return;
+      activeSectionId = id;
+      navigationLinks.forEach((link) => {
+        if (link.hash === `#${id}`) {
+          link.setAttribute("aria-current", "location");
+        } else {
+          link.removeAttribute("aria-current");
+        }
+      });
+    };
+
+    const sectionObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const id = (entry.target as HTMLElement).id;
+          if (entry.isIntersecting) visibleSectionIds.add(id);
+          else visibleSectionIds.delete(id);
+        });
+
+        const activeSection = trackedSections.find((section) =>
+          visibleSectionIds.has(section.id),
+        );
+        setActiveSection(activeSection?.id ?? "");
+      },
+      { rootMargin: "-18% 0px -72%", threshold: 0 },
+    );
+    trackedSections.forEach((section) => sectionObserver.observe(section));
+
     const resetSun = () => {
       if (!sun) return;
       sun.style.setProperty("--sun-x", "0px");
@@ -97,34 +125,6 @@ export function MotionController() {
       });
     };
 
-    const updateScrollState = () => {
-      cancelAnimationFrame(scrollFrame);
-      scrollFrame = requestAnimationFrame(() => {
-        const scrollRange = Math.max(
-          1,
-          document.documentElement.scrollHeight - window.innerHeight,
-        );
-        const progress = Math.min(1, Math.max(0, window.scrollY / scrollRange));
-        progressBar?.style.setProperty("transform", `scaleX(${progress.toFixed(4)})`);
-        header?.classList.toggle("is-scrolled", window.scrollY > 32);
-
-        let activeId = "";
-        trackedSections.forEach((section) => {
-          if (section.getBoundingClientRect().top <= window.innerHeight * 0.48) {
-            activeId = section.id;
-          }
-        });
-
-        navigationLinks.forEach((link) => {
-          if (link.hash === `#${activeId}`) {
-            link.setAttribute("aria-current", "location");
-          } else {
-            link.removeAttribute("aria-current");
-          }
-        });
-      });
-    };
-
     const handlePreferenceChange = () => {
       resetSun();
       if (reducedMotion.matches) {
@@ -134,26 +134,20 @@ export function MotionController() {
 
     hero?.addEventListener("pointermove", moveSun, { passive: true });
     hero?.addEventListener("pointerleave", resetSun);
-    window.addEventListener("scroll", updateScrollState, { passive: true });
-    window.addEventListener("resize", updateScrollState, { passive: true });
     reducedMotion.addEventListener("change", handlePreferenceChange);
     precisePointer.addEventListener("change", resetSun);
-    updateScrollState();
 
     return () => {
       cancelAnimationFrame(pointerFrame);
-      cancelAnimationFrame(scrollFrame);
       revealObserver.disconnect();
       solarVisibilityObserver.disconnect();
       timelineObserver?.disconnect();
+      sectionObserver.disconnect();
       hero?.removeEventListener("pointermove", moveSun);
       hero?.removeEventListener("pointerleave", resetSun);
-      window.removeEventListener("scroll", updateScrollState);
-      window.removeEventListener("resize", updateScrollState);
       reducedMotion.removeEventListener("change", handlePreferenceChange);
       precisePointer.removeEventListener("change", resetSun);
       root.classList.remove("motion-ready");
-      progressBar?.style.removeProperty("transform");
     };
   }, []);
 

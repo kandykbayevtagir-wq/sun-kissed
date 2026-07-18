@@ -42,6 +42,7 @@ test("server-renders the complete Sun Kissed page", async () => {
   assert.match(html, /<details class="navigation-menu"/i);
   assert.match(html, /aria-controls="navigation-menu"/i);
   assert.match(html, /data-parallax-sun="true"/i);
+  assert.match(html, />Enter the Sanctuary</i);
   assert.doesNotMatch(html, /class="section-index">The Sanctuary remains open/i);
   assert.doesNotMatch(html, /Fictional community worldbuilding/i);
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton|lorem ipsum/i);
@@ -58,12 +59,13 @@ test("server-renders a dedicated, non-indexable not-found page", async () => {
 });
 
 test("removes the disposable starter and keeps production metadata", async () => {
-  const [page, layout, css, navigation, packageJson] = await Promise.all([
+  const [page, layout, css, navigation, packageJson, viteConfig] = await Promise.all([
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
     readFile(new URL("../app/SiteNavigation.tsx", import.meta.url), "utf8"),
     readFile(new URL("../package.json", import.meta.url), "utf8"),
+    readFile(new URL("../vite.config.ts", import.meta.url), "utf8"),
   ]);
 
   assert.match(page, /SITE_CONFIG\.discordInviteUrl/);
@@ -75,8 +77,14 @@ test("removes the disposable starter and keeps production metadata", async () =>
   assert.match(css, /prefers-reduced-motion:\s*reduce/);
   assert.match(css, /:focus-visible/);
   assert.match(navigation, /<details className="navigation-menu"/);
+  assert.doesNotMatch(navigation, /inviteUrl|nav-invite|brand-link/);
+  assert.equal(page.match(/Enter the Sanctuary/g)?.length, 1);
   assert.doesNotMatch(page + css, /hero-light/);
+  assert.doesNotMatch(page + css, /cosmic-field|solar-corona|solar-haze|solar-flare|solar-particles/);
+  assert.doesNotMatch(css, /content-visibility:\s*auto|contain-intrinsic-size|menu-open/);
+  assert.equal(page.match(/href=\{inviteUrl\}/g)?.length, 1);
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
+  assert.match(viteConfig, /sourcemap:\s*false/);
   assert.doesNotMatch(page + layout, /codex-preview|SkeletonPreview/);
 
   await assert.rejects(access(new URL("app/_sites-preview", projectRoot)));

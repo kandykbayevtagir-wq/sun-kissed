@@ -2,13 +2,12 @@
 
 import { type MouseEvent, useEffect, useRef } from "react";
 
-export function SiteNavigation({ inviteUrl }: { inviteUrl: string }) {
+export function SiteNavigation() {
   const menuRef = useRef<HTMLDetailsElement>(null);
   const toggleRef = useRef<HTMLElement>(null);
 
   const closeMenu = () => {
     if (menuRef.current) menuRef.current.open = false;
-    document.documentElement.classList.remove("menu-open");
   };
 
   const closeMenuAndFocusTarget = (event: MouseEvent<HTMLAnchorElement>) => {
@@ -23,10 +22,6 @@ export function SiteNavigation({ inviteUrl }: { inviteUrl: string }) {
     const menu = menuRef.current;
     if (!menu) return;
 
-    const handleToggle = () => {
-      document.documentElement.classList.toggle("menu-open", menu.open);
-    };
-
     const closeOutside = (event: PointerEvent) => {
       if (menu.open && !menu.contains(event.target as Node)) closeMenu();
     };
@@ -37,33 +32,18 @@ export function SiteNavigation({ inviteUrl }: { inviteUrl: string }) {
       toggleRef.current?.focus();
     };
 
-    menu.addEventListener("toggle", handleToggle);
     window.addEventListener("pointerdown", closeOutside);
     window.addEventListener("keydown", closeOnEscape);
 
     return () => {
-      menu.removeEventListener("toggle", handleToggle);
       window.removeEventListener("pointerdown", closeOutside);
       window.removeEventListener("keydown", closeOnEscape);
-      document.documentElement.classList.remove("menu-open");
     };
   }, []);
 
   return (
     <header className="site-header">
       <nav className="floating-nav" aria-label="Primary navigation">
-        <a
-          className="brand-link"
-          href="#top"
-          aria-label="Sun Kissed home"
-          onClick={closeMenuAndFocusTarget}
-        >
-          <span className="sun-mark" aria-hidden="true">
-            <i />
-          </span>
-          <span>Sun Kissed</span>
-        </a>
-
         <details className="navigation-menu" ref={menuRef}>
           <summary
             className="menu-toggle"
@@ -88,20 +68,8 @@ export function SiteNavigation({ inviteUrl }: { inviteUrl: string }) {
               <a href="#rules" data-index="03" onClick={closeMenuAndFocusTarget}>Rules</a>
               <a href="#final-invitation" data-index="04" onClick={closeMenuAndFocusTarget}>The Sanctuary</a>
             </div>
-            <a
-              className="nav-invite"
-              href={inviteUrl}
-              target="_blank"
-              rel="noreferrer"
-              onClick={closeMenu}
-            >
-              <span>Enter the Sanctuary</span>
-              <b aria-hidden="true">↗</b>
-            </a>
           </div>
         </details>
-
-        <span className="nav-progress" aria-hidden="true"><i /></span>
       </nav>
     </header>
   );

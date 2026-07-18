@@ -11,7 +11,7 @@
     "name": "rolldown-runtime"
   },
   "app/MotionController.tsx": {
-    "file": "assets/MotionController-GGKgNGjh.js",
+    "file": "assets/MotionController-DPtOTNmb.js",
     "name": "MotionController",
     "src": "app/MotionController.tsx",
     "isDynamicEntry": true,
@@ -21,7 +21,7 @@
     ]
   },
   "app/SiteNavigation.tsx": {
-    "file": "assets/SiteNavigation-CmOLdrpv.js",
+    "file": "assets/SiteNavigation-DXtvLzmL.js",
     "name": "SiteNavigation",
     "src": "app/SiteNavigation.tsx",
     "isDynamicEntry": true,
@@ -31,7 +31,7 @@
     ]
   },
   "node_modules/vinext/dist/shims/layout-segment-context.js": {
-    "file": "assets/layout-segment-context-cZ9-hPZ9.js",
+    "file": "assets/layout-segment-context-BgWeBRKO.js",
     "name": "layout-segment-context",
     "src": "node_modules/vinext/dist/shims/layout-segment-context.js",
     "isDynamicEntry": true,
@@ -42,7 +42,7 @@
     ]
   },
   "virtual:vinext-app-browser-entry": {
-    "file": "assets/index-ncYDUs8f.js",
+    "file": "assets/index-1DRSpF3b.js",
     "name": "index",
     "src": "virtual:vinext-app-browser-entry",
     "isEntry": true,

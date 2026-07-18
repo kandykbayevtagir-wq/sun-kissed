@@ -21,22 +21,9 @@ function SolarVisual({
       aria-hidden="true"
       data-parallax-sun={parallax ? "true" : undefined}
     >
-      <div className="solar-corona" />
-      <div className="solar-rays" />
-      <div className="solar-flare solar-flare-one" />
-      <div className="solar-flare solar-flare-two" />
       <div className="solar-disc">
         <div className="solar-surface" />
         <div className="solar-surface solar-surface-secondary" />
-      </div>
-      <div className="solar-haze" />
-      <div className="solar-particles">
-        <i />
-        <i />
-        <i />
-        <i />
-        <i />
-        <i />
       </div>
     </div>
   );
@@ -59,10 +46,9 @@ export default function Home() {
       <a className="skip-link" href="#main-content">
         Skip to main content
       </a>
-      <div className="cosmic-field" aria-hidden="true" />
       <div className="film-grain" aria-hidden="true" />
 
-      <SiteNavigation inviteUrl={inviteUrl} />
+      <SiteNavigation />
 
       <main id="main-content" tabIndex={-1}>
         <section
@@ -92,15 +78,6 @@ export default function Home() {
                 Sun.
               </p>
               <div className="hero-actions">
-                <a
-                  className="button button-primary"
-                  href={inviteUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Enter the Sanctuary
-                  <span aria-hidden="true">↗</span>
-                </a>
                 <a className="text-link" href="#ascensions">
                   Discover the Ascensions
                   <span aria-hidden="true">↓</span>
@@ -182,7 +159,6 @@ export default function Home() {
           tabIndex={-1}
           aria-labelledby="lore-title"
         >
-          <div className="lore-orbit" aria-hidden="true" />
           <div className="page-width lore-layout">
             <header className="lore-heading" data-reveal>
               <p className="section-index">02 · Solar archive</p>
@@ -291,7 +267,7 @@ export default function Home() {
               target="_blank"
               rel="noreferrer"
             >
-              Join Sun Kissed
+              Enter the Sanctuary
               <span aria-hidden="true">↗</span>
             </a>
           </div>
