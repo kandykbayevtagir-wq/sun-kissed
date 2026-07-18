@@ -5,7 +5,7 @@ const clientDirectory = new URL("../dist/client/", import.meta.url);
 const workerUrl = new URL("../dist/server/index.js", import.meta.url);
 
 // This is the public URL GitHub Pages assigns to the project repository.
-const publicSiteUrl = "https://xenonraze.github.io/sun-kissed/";
+const publicSiteUrl = "https://kandykbayevtagir-wq.github.io/sun-kissed/";
 
 workerUrl.searchParams.set("static-export", `${Date.now()}`);
 const { default: worker } = await import(workerUrl.href);
