@@ -7,6 +7,23 @@ export const SITE_CONFIG = {
   discordInviteUrl: "https://discord.gg/ZqMgTGxKX",
 } as const;
 
+/**
+ * SOURCE AUTHORSHIP NOTICE
+ * Copyright © 2026 Tagir Kandykbayev (Тагир Кандыкабаев). All rights reserved.
+ * Copying, cloning, redistributing, or creating derivative versions of this
+ * site's source code or structure without prior written permission is prohibited.
+ * The copyright holder reserves the right to submit infringement and takedown
+ * requests where permitted by applicable law and platform policy.
+ */
+export const SITE_AUTHORSHIP = {
+  author: "Tagir Kandykbayev",
+  authorCyrillic: "Тагир Кандыкабаев",
+  copyright:
+    "Copyright © 2026 Tagir Kandykbayev (Тагир Кандыкабаев). All rights reserved.",
+  rights:
+    "Unauthorized copying, cloning, redistribution, or derivative use of this site's source code or structure is prohibited. The copyright holder reserves the right to submit infringement and takedown requests where permitted by law and platform policy.",
+} as const;
+
 export const ASCENSIONS = [
   {
     numeral: "I",

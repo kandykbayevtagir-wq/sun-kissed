@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { headers } from "next/headers";
 import "./globals.css";
-import { SITE_CONFIG } from "./site-config";
+import { SITE_AUTHORSHIP, SITE_CONFIG } from "./site-config";
 
 export async function generateMetadata(): Promise<Metadata> {
   const requestHeaders = await headers();
@@ -31,8 +31,14 @@ export async function generateMetadata(): Promise<Metadata> {
       "community rules",
       "solar worldbuilding",
     ],
-    authors: [{ name: "Sun Kissed" }],
-    creator: "Sun Kissed",
+    authors: [{ name: SITE_AUTHORSHIP.author }],
+    creator: SITE_AUTHORSHIP.author,
+    publisher: SITE_AUTHORSHIP.author,
+    other: {
+      copyright: SITE_AUTHORSHIP.copyright,
+      "site-author": `${SITE_AUTHORSHIP.author} (${SITE_AUTHORSHIP.authorCyrillic})`,
+      "rights-notice": SITE_AUTHORSHIP.rights,
+    },
     alternates: { canonical: origin },
     openGraph: {
       type: "website",

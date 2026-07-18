@@ -42,11 +42,15 @@ test("server-renders the complete Sun Kissed page", async () => {
   assert.match(html, /<details class="navigation-menu"/i);
   assert.match(html, /aria-controls="navigation-menu"/i);
   assert.match(html, /data-parallax-sun="true"/i);
+  assert.match(html, /data-site-author="Tagir Kandykbayev \(Тагир Кандыкабаев\)"/i);
+  assert.match(html, /data-copyright-notice=/i);
+  assert.match(html, /name="copyright"/i);
   assert.match(html, /scrollRestoration/);
   assert.match(html, /pageshow/);
   assert.match(html, />Enter the Sanctuary</i);
   assert.doesNotMatch(html, /class="section-index">The Sanctuary remains open/i);
   assert.doesNotMatch(html, /Fictional community worldbuilding/i);
+  assert.doesNotMatch(html, /Continue to the Sanctuary/i);
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton|lorem ipsum/i);
 });
 
@@ -74,7 +78,10 @@ test("removes the disposable starter and keeps production metadata", async () =>
   assert.match(page, /id="ascensions"/);
   assert.match(page, /id="lore"/);
   assert.match(page, /id="rules"/);
+  assert.doesNotMatch(page, /Continue to the Sanctuary/);
+  assert.match(page, /data-site-author/);
   assert.match(layout, /Sun Kissed — The Union of the Sun Kissed/);
+  assert.match(layout, /SITE_AUTHORSHIP\.rights/);
   assert.match(layout, /summary_large_image/);
   assert.match(layout, /window\.history\.scrollRestoration\s*=\s*"manual"/);
   assert.match(layout, /window\.history\.replaceState/);

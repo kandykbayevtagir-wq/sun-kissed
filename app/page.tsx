@@ -5,6 +5,7 @@ import {
   LORE_FRAGMENTS,
   MODERATION_CLAUSE,
   RULES,
+  SITE_AUTHORSHIP,
   SITE_CONFIG,
 } from "./site-config";
 
@@ -41,7 +42,12 @@ export default function Home() {
   const inviteUrl = SITE_CONFIG.discordInviteUrl;
 
   return (
-    <div className="site-shell">
+    <div
+      className="site-shell"
+      data-site-author={`${SITE_AUTHORSHIP.author} (${SITE_AUTHORSHIP.authorCyrillic})`}
+      data-copyright-notice={SITE_AUTHORSHIP.copyright}
+      data-rights-notice={SITE_AUTHORSHIP.rights}
+    >
       <MotionController />
       <a className="skip-link" href="#main-content">
         Skip to main content
@@ -215,10 +221,6 @@ export default function Home() {
                 protect the people around you, and help keep the Sanctuary
                 safe.
               </p>
-              <a className="text-link" href="#final-invitation">
-                Continue to the Sanctuary
-                <span aria-hidden="true">↓</span>
-              </a>
             </header>
 
             <div className="rules-ledger">
